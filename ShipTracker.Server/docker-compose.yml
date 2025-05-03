@@ -1,0 +1,19 @@
+﻿version: '3.8'
+
+services:
+  bookstore_db:
+    image: postgres:17-alpine
+    container_name: ship_tracker_postgres
+    environment:
+      POSTGRES_DB: ship_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  bookstore_data:
+    driver: local
