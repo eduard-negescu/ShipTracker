@@ -3,9 +3,9 @@
     public class UpdateVoyageDto
     {
         public string? Name { get; set; }
-        public DateTime? VoyageDate { get; set; }
-        public DateTime? VoyageStart { get; set; }
-        public DateTime? VoyageEnd { get; set; }
+        public DateOnly? VoyageDate { get; set; }
+        public DateOnly? VoyageStart { get; set; }
+        public DateOnly? VoyageEnd { get; set; }
         public int? DeparturePortId { get; set; }
         public int? ArrivalPortId { get; set; }
         public int? ShipId { get; set; }

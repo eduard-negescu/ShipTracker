@@ -102,14 +102,14 @@ namespace ShipTracker.Server.Migrations
                     b.Property<int>("ShipId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("VoyageDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("VoyageDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("VoyageEnd")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("VoyageEnd")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("VoyageStart")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("VoyageStart")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 

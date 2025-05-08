@@ -50,7 +50,6 @@ namespace ShipTracker.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddVoyage(AddVoyageDto addVoyageDto)
         {
-            // Validate related entities exist
             if (!await _dbContext.Ports.AnyAsync(p => p.Id == addVoyageDto.DeparturePortId))
                 return BadRequest("Departure port not found");
 
@@ -74,11 +73,11 @@ namespace ShipTracker.Server.Controllers
             _dbContext.Voyages.Add(voyage);
             await _dbContext.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetVoyage), new { id = voyage.Id }, voyage);
+            return Created();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateVoyage(int id, UpdateVoyageDto updateVoyageDto)
+        public async Task<ActionResult<Voyage>> UpdateVoyage(int id, UpdateVoyageDto updateVoyageDto)
         {
             var voyage = await _dbContext.Voyages.FindAsync(id);
 
@@ -87,7 +86,6 @@ namespace ShipTracker.Server.Controllers
                 return NotFound();
             }
 
-            // Update fields if provided
             if (updateVoyageDto.Name != null)
                 voyage.Name = updateVoyageDto.Name;
 
@@ -100,7 +98,6 @@ namespace ShipTracker.Server.Controllers
             if (updateVoyageDto.VoyageEnd.HasValue)
                 voyage.VoyageEnd = updateVoyageDto.VoyageEnd.Value;
 
-            // Validate and update relationships if provided
             if (updateVoyageDto.DeparturePortId.HasValue)
             {
                 if (!await _dbContext.Ports.AnyAsync(p => p.Id == updateVoyageDto.DeparturePortId))
@@ -123,7 +120,7 @@ namespace ShipTracker.Server.Controllers
             }
 
             await _dbContext.SaveChangesAsync();
-            return NoContent();
+            return Ok(voyage);
         }
 
         [HttpDelete("{id:int}")]
@@ -139,7 +136,7 @@ namespace ShipTracker.Server.Controllers
             _dbContext.Voyages.Remove(voyage);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
     }
 }

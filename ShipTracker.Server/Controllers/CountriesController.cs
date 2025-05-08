@@ -72,5 +72,25 @@ namespace ShipTracker.Server.Controllers
 
             return Ok();
         }
+
+        [HttpGet("get_by_num_ports")]
+        public async Task<ActionResult<List<GetCountriesByNumPortsDto>>> GetCountriesByNumberOfPorts()
+        {
+            var countriesWithPortCounts = await dbContext.Countries
+                .GroupJoin(
+                    dbContext.Ports,
+                    country => country.Id,
+                    port => port.CountryId,
+                    (country, ports) => new GetCountriesByNumPortsDto
+                    {
+                        CountryId = country.Id,
+                        CountryName = country.Name,
+                        NumberOfPorts = ports.Count()
+                    })
+                .OrderByDescending(c => c.NumberOfPorts)
+                .ToListAsync();
+
+            return Ok(countriesWithPortCounts);
+        }
     }
 }
