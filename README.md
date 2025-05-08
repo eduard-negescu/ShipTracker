@@ -1,11 +1,17 @@
 # ShipTracker
 
-For installing project:
-* For installing postgres db with docker run the following command from inside the ShipTrackerServer:
-```docker compose up -d```
-* Either run from VS 2022 or if not:
-    ```dotnet restore```
-    * Run for migrations:
-    ```dotnet ef database update```
-    * Then:
-    ```dotnet run ```
+## Project Installation
+Run inside ShipTracker.Server
+```docker compose up -d``` (For creating a container for a PostgreSQL DB)
+```dotnet restore```
+```dotnet ef database update``` (For migrations)
+```dotnet run --launch-profile https``` (The Angular Frontend works only with the https)
+
+## APIs
+See ```https://localhost:7167/swagger/``` for OpenAPI documentation.
+
+## Technologies
+* ASP.NET 8.0
+* EF Core
+* PostgreSQL
+* NUnit, Moq

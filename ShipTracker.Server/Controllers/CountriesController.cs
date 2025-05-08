@@ -29,7 +29,12 @@ namespace ShipTracker.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCountry(AddCountryDto addCountryDto)
         {
-            Country countryEntity = new Country()
+            if (addCountryDto == null)
+            {
+                return BadRequest("Country data cannot be null");
+            }
+
+            Country countryEntity = new()
             {
                 Name = addCountryDto.Name
             };
@@ -44,8 +49,12 @@ namespace ShipTracker.Server.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult<Country>> UpdateCountry(int id, UpdateCountryDto updateCountryDto)
         {
-            var country = await dbContext.Countries.FindAsync(id);
+            if (updateCountryDto == null)
+            {
+                return BadRequest("Update data cannot be null");
+            }
 
+            var country = await dbContext.Countries.FindAsync(id);
             if (country == null)
             {
                 return NotFound();
