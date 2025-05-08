@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShipTracker.Server.Database;
 using ShipTracker.Server.Models;
@@ -21,7 +20,8 @@ namespace ShipTracker.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Country>>> GetAllCountries()
         {
-            var countries = await dbContext.Countries.ToListAsync();
+            // Fixed the incorrect usage of OrderBy and corrected the property name  
+            var countries = await dbContext.Countries.OrderBy(c => c.Name).ToListAsync();
 
             return Ok(countries);
         }
@@ -30,8 +30,8 @@ namespace ShipTracker.Server.Controllers
         public async Task<IActionResult> AddCountry(AddCountryDto addCountryDto)
         {
             Country countryEntity = new Country()
-            { 
-                Name = addCountryDto.Name 
+            {
+                Name = addCountryDto.Name
             };
 
             dbContext.Countries.Add(countryEntity);
@@ -42,8 +42,34 @@ namespace ShipTracker.Server.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public IActionResult UpdateCountry()
+        public async Task<ActionResult<Country>> UpdateCountry(int id, UpdateCountryDto updateCountryDto)
         {
+            var country = await dbContext.Countries.FindAsync(id);
+
+            if (country == null)
+            {
+                return NotFound();
+            }
+
+            country.Name = updateCountryDto.Name;
+            await dbContext.SaveChangesAsync();
+            return Ok(country);
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteCountry(int id)
+        {
+            var country = await dbContext.Countries.FindAsync(id);
+
+            if (country == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Remove(country);
+            await dbContext.SaveChangesAsync();
+
             return Ok();
         }
     }

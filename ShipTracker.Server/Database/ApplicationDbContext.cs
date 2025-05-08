@@ -11,6 +11,9 @@ namespace ShipTracker.Server.Database
         }
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Port> Ports { get; set; }
+        public DbSet<Ship> Ships { get; set; }
+        public DbSet<Voyage> Voyages { get; set; }
 
     }
 }
