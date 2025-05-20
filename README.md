@@ -1,6 +1,6 @@
 # ShipTracker
 
-For frontend go (https://github.com/eduard-negescu/shiptracker_angular)[here]
+For frontend go [here](https://github.com/eduard-negescu/shiptracker_angular)
 ## Project Installation
 Run inside ShipTracker.Server
 ```docker compose up -d``` (For creating a container for a PostgreSQL DB)
